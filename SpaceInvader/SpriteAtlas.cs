@@ -9,6 +9,7 @@ namespace SpaceInvader
 {
 	public class SpriteAtlas
 	{
+		public int Count { get; }
 		private readonly Texture _atlasTexture;
 		private readonly int _columns;
 		private readonly int _singleSpriteWidth;
@@ -23,6 +24,8 @@ namespace SpaceInvader
 
 			_singleSpriteWidth = (int)(_atlasTexture.Size.X / rows);
 			_singleSpriteHeight = (int)(_atlasTexture.Size.Y / _columns);
+
+			Count = _columns * rows;
 		}
 
 		public Sprite GetSprite(int currentIndex)

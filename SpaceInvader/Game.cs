@@ -18,6 +18,7 @@ namespace SpaceInvader
 		private readonly Player _player;
 		private readonly EnemyManager _enemyManager;
 		private readonly CollisionHandler _collisionHandler;
+		private readonly AnimationManager _animatorManager;
 
 		public Game(GameConfiguration gameConfiguration)
 		{
@@ -33,7 +34,8 @@ namespace SpaceInvader
 			_player = CreatePlayer(gameConfiguration);
 
 			var screenSize = new Vector2f(gameConfiguration.Width, gameConfiguration.Height);
-			_enemyManager = new EnemyManager(gameConfiguration.EnemySpawnCooldown, gameConfiguration.EnemySpeed, screenSize);
+			_animatorManager = new AnimationManager();
+			_enemyManager = new EnemyManager(gameConfiguration.EnemySpawnCooldown, gameConfiguration.EnemySpeed, screenSize, _animatorManager);
 
 			_collisionHandler = new CollisionHandler(_player, _enemyManager);
 			//var gameJson = JsonConvert.SerializeObject(this);
@@ -87,6 +89,7 @@ namespace SpaceInvader
 			_player.Update();
 			_enemyManager.Update();
 			_collisionHandler.Update();
+			_animatorManager.Update();
 		}
 
 		private void Draw()
@@ -94,6 +97,7 @@ namespace SpaceInvader
 			_window.Draw(_background);
 			_player.Draw(_window);
 			_enemyManager.Draw(_window);
+			_animatorManager.Draw(_window);
 
 			_window.Display();
 		}

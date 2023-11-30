@@ -20,6 +20,7 @@ namespace SpaceInvader
 		private readonly CollisionHandler _collisionHandler;
 		private readonly AnimationManager _animatorManager;
 		private readonly ScoreManager _scoreManager;
+		private readonly Vector2f _screenSize;
 
 		public Game(GameConfiguration gameConfiguration)
 		{
@@ -34,9 +35,9 @@ namespace SpaceInvader
 
 			_player = CreatePlayer(gameConfiguration);
 
-			var screenSize = new Vector2f(gameConfiguration.Width, gameConfiguration.Height);
+			_screenSize = new Vector2f(gameConfiguration.Width, gameConfiguration.Height);
 			_animatorManager = new AnimationManager();
-			_enemyManager = new EnemyManager(gameConfiguration.EnemySpawnCooldown, gameConfiguration.EnemySpeed, screenSize, _animatorManager);
+			_enemyManager = new EnemyManager(gameConfiguration.EnemySpawnCooldown, gameConfiguration.EnemySpeed, _screenSize, _animatorManager);
 
 			_scoreManager = new ScoreManager(gameConfiguration.ScoreManagerSettings);
 			_collisionHandler = new CollisionHandler(_player, _enemyManager, _scoreManager);
@@ -53,12 +54,20 @@ namespace SpaceInvader
 			}
 		}
 
+		private void ShowGameOverText()
+		{
+			var textPosition = _screenSize / 2;
+			var gameOverText = new TextLabel("Game\nOver", "FreeMonospacedBold", 80, Color.White, textPosition);
+			gameOverText.Draw(_window);
+		}
+
 		public void ShowGameOverScreen()
 		{
 			while (_window.IsOpen)
 			{
 				HandleEvents();
 				_window.Clear(Color.Black);
+				ShowGameOverText();
 				_window.Display();
 			}
 		}

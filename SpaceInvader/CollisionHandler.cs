@@ -10,11 +10,13 @@ namespace SpaceInvader
 	{
 		private readonly Player _player;
 		private readonly EnemyManager _enemyManager;
+		private readonly ScoreManager _scoreManager;
 
-		public CollisionHandler(Player player, EnemyManager enemymanager)
+		public CollisionHandler(Player player, EnemyManager enemymanager, ScoreManager scoreManager)
 		{
 			_player = player;
 			_enemyManager = enemymanager;
+			_scoreManager = scoreManager;
 		}
 
 		private bool HasCollisionEnemyWithBullet(Enemy enemy, out Bullet bullet)
@@ -50,6 +52,7 @@ namespace SpaceInvader
 				{
 					_player.DestroyBullet(bullet);
 					_enemyManager.DestroyEnemy(enemies[i]);
+					_scoreManager.IncreaseScore();
 					i--;
 					continue;
 				}
